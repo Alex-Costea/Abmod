@@ -3,7 +3,7 @@
 
 Take the following function
 
-f: N² -\&gt; N; f(a,b)=(a\*b) mod (a+b+1)
+f: N² ->; N; f(a,b)=(a\*b) mod (a+b+1)
 
 We can define the following family of infinite sequences:
 
@@ -11,7 +11,7 @@ g(a,b)(n)= a, if n=0
 
 =b, if n=1
 
-=f(g(a,b)(n-1),g(a,b)(n-2)), if n\&gt;1
+=f(g(a,b)(n-1),g(a,b)(n-2)), if n>1
 
 In other words, the sequence g(a,b) will start with [a,b] and then every new term is f(x,y), where x and y are the previous 2 terms.
 
@@ -21,23 +21,21 @@ f(a,b)=(a\*b) mod (|a+b|+1)
 
 However I will focus on natural numbers in this article.
 
-Abmod sequences behave chaotically. At every step the current number can increase up to a+b, best case scenario or down to 0, worst case scenario. All sequences I tested eventually end up in a cycle, however, while seemingly unlikely, it&#39;s theoretically possible for an Abmod sequence to increase forever. Hence I propose the following conjecture:
+Abmod sequences behave chaotically. At every step the current number can increase up to a+b, best case scenario or down to 0, worst case scenario. All sequences I tested eventually end up in a cycle, however, while seemingly unlikely, it's theoretically possible for an Abmod sequence to increase forever. Hence I propose the following conjecture:
 
 Abmod conjecture: all Abmod sequences end in a cycle
 
-Why would that be the case? Well consider that we are at the point (a,a). Best case scenario, the next term will be 2\*a. But worst case scenario is not a/2. It can be a/2, a/4, a/8, it can even crash down to 0 (a/infinity). On a log2 scale, at any point it can increase by at most 1, or decrease by any number, and as such it&#39;s fundamentally asymmetrical, and tends to go down. And, assuming from one point it never reaches a value higher than k, it can only end up in a cycle (by the pigeonhole principle).
+Why would that be the case? Well consider that we are at the point (a,a). Best case scenario, the next term will be 2\*a. But worst case scenario is not a/2. It can be a/2, a/4, a/8, it can even crash down to 0 (a/infinity). On a log2 scale, at any point it can increase by at most 1, or decrease by any number, and as such it's fundamentally asymmetrical, and tends to go down. And, assuming from one point it never reaches a value higher than k, it can only end up in a cycle (by the pigeonhole principle).
 
-However, this is not a definitive proof of the conjecture because it assumes abmod sequences behave randomly, while in fact they&#39;re not completely random. And even if the behavior was completely random, this would only show that almost all sequences end up in a cycle (probability 1), but that doesn&#39;t exclude the possibility of such a sequence existing.
+However, this is not a definitive proof of the conjecture because it assumes abmod sequences behave randomly, while in fact they're not completely random. And even if the behavior was completely random, this would only show that almost all sequences end up in a cycle (probability 1), but that doesn't exclude the possibility of such a sequence existing.
 
-This doesn&#39;t seem easy to prove at all. Like Collatz, it&#39;s unclear how much a sequence will go up before it collapses into a cycle. Plus in general the behavior of mod functions is hard to predict, hence they are used in cryptography as an one way function. Just as examples, we can consider some sequences.
+This doesn't seem easy to prove at all. Like Collatz, it's unclear how much a sequence will go up before it collapses into a cycle. Plus in general the behavior of mod functions is hard to predict, hence they are used in cryptography as an one way function. Just as examples, we can consider some sequences.
 
 g(731,736) does the following steps:
 
 731, 736, 728, 1083, 204, 684, 852, 245, 120, 120, 181, 278, 178, 128, 66, 63, 128
 
-After that, it collapses into a cycle of 0. Here it is graphically (on a log scale):
-
-![](RackMultipart20220530-1-tbwcwd_html_d37951a802833400.png)
+After that, it collapses into a cycle of 0.
 
 Compare that to g(731,737). The sequence is equal to:
 
@@ -47,142 +45,138 @@ And then it goes into the following cycle:
 
 52, 79, 16, 16, 25, 22, 22, 34, 7, 28, 16, 43, 28
 
-It can also be pictured graphically
+I've kinda cheated here a bit, because I searched for the sequence with a,b<1000 which reaches the biggest number and (731,737) turned out to be the winning one. It reaches a peak of over 72 million, almost 100 thousand times 737.
 
-![](RackMultipart20220530-1-tbwcwd_html_949363de2da22ce0.png)
-
-I&#39;ve kinda cheated here a bit, because I searched for the sequence with a,b\&lt;1000 which reaches the biggest number and (731,737) turned out to be the winning one. It reaches a peak of over 72 million, almost 100 thousand times 737.
-
-The cycles &quot;0&quot; and &quot;52, 79, 16, 16, 25, 22, 22, 34, 7, 28, 16, 43, 28&quot;, along with &quot;7,4,4&quot;, seem to be the most common ones. The cycle &quot;1&quot; can be reached by g(1,1), however it cannot be reached in any other way.
+The cycles "0" and "52, 79, 16, 16, 25, 22, 22, 34, 7, 28, 16, 43, 28", along with "7,4,4", seem to be the most common ones. The cycle "1" can be reached by g(1,1), however it cannot be reached in any other way.
 
 Another way to think about it is as a directed graph, in which every pair of 2 numbers has a directed edge to another pair
 
-(a,b) -\&gt; (b,f(a,b))
+(a,b) -> (b,f(a,b))
 
 This is how the directed graph looks like for a and b between 0 and 5
 
-(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0) -\&gt; (0, 0)
+(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0) -> (0, 0)
 
-NONE -\&gt; (0, 1)
+NONE -> (0, 1)
 
-(0, 1) -\&gt; (1, 0)
+(0, 1) -> (1, 0)
 
-NONE -\&gt; (0, 2)
+NONE -> (0, 2)
 
-(0, 2), (3, 2) -\&gt; (2, 0)
+(0, 2), (3, 2) -> (2, 0)
 
-(1, 1) -\&gt; (1, 1)
+(1, 1) -> (1, 1)
 
-NONE -\&gt; (0, 3)
+NONE -> (0, 3)
 
-(0, 3), (2, 3), (8, 3) -\&gt; (3, 0)
+(0, 3), (2, 3), (8, 3) -> (3, 0)
 
-(2, 1) -\&gt; (1, 2)
+(2, 1) -> (1, 2)
 
-(1, 2), (5, 2) -\&gt; (2, 2)
+(1, 2), (5, 2) -> (2, 2)
 
-(2, 2) -\&gt; (2, 4)
+(2, 2) -> (2, 4)
 
-(2, 4) -\&gt; (4, 1)
+(2, 4) -> (4, 1)
 
-(4, 1) -\&gt; (1, 4)
+(4, 1) -> (1, 4)
 
-(1, 4), (7, 4), (3, 4) -\&gt; (4, 4)
+(1, 4), (7, 4), (3, 4) -> (4, 4)
 
-(4, 4) -\&gt; (4, 7)
+(4, 4) -> (4, 7)
 
-(4, 7) -\&gt; (7, 4)
+(4, 7) -> (7, 4)
 
-(4, 2) -\&gt; (2, 1)
+(4, 2) -> (2, 1)
 
-NONE -\&gt; (0, 4)
+NONE -> (0, 4)
 
-(0, 4), (5, 4) -\&gt; (4, 0)
+(0, 4), (5, 4) -> (4, 0)
 
-(3, 1) -\&gt; (1, 3)
+(3, 1) -> (1, 3)
 
-(1, 3) -\&gt; (3, 3)
+(1, 3) -> (3, 3)
 
-(3, 3) -\&gt; (3, 2)
+(3, 3) -> (3, 2)
 
-NONE -\&gt; (3, 1)
+NONE -> (3, 1)
 
-NONE -\&gt; (0, 5)
+NONE -> (0, 5)
 
-(0, 5), (4, 5) -\&gt; (5, 0)
+(0, 5), (4, 5) -> (5, 0)
 
-NONE -\&gt; (2, 3)
+NONE -> (2, 3)
 
-(5, 1) -\&gt; (1, 5)
+(5, 1) -> (1, 5)
 
-(1, 5) -\&gt; (5, 5)
+(1, 5) -> (5, 5)
 
-(5, 5) -\&gt; (5, 3)
+(5, 5) -> (5, 3)
 
-(5, 3) -\&gt; (3, 6)
+(5, 3) -> (3, 6)
 
-(3, 6) -\&gt; (6, 8)
+(3, 6) -> (6, 8)
 
-(6, 8) -\&gt; (8, 3)
+(6, 8) -> (8, 3)
 
-NONE -\&gt; (4, 2)
+NONE -> (4, 2)
 
-NONE -\&gt; (5, 1)
+NONE -> (5, 1)
 
-NONE -\&gt; (2, 5)
+NONE -> (2, 5)
 
-(2, 5) -\&gt; (5, 2)
+(2, 5) -> (5, 2)
 
-(4, 3) -\&gt; (3, 4)
+(4, 3) -> (3, 4)
 
-NONE -\&gt; (4, 3)
+NONE -> (4, 3)
 
-NONE -\&gt; (3, 5)
+NONE -> (3, 5)
 
-(3, 5) -\&gt; (5, 6)
+(3, 5) -> (5, 6)
 
-(5, 6) -\&gt; (6, 6)
+(5, 6) -> (6, 6)
 
-(6, 6) -\&gt; (6, 10)
+(6, 6) -> (6, 10)
 
-(6, 10) -\&gt; (10, 9)
+(6, 10) -> (10, 9)
 
-(10, 9) -\&gt; (9, 10)
+(10, 9) -> (9, 10)
 
-(9, 10) -\&gt; (10, 10)
+(9, 10) -> (10, 10)
 
-(10, 10) -\&gt; (10, 16)
+(10, 10) -> (10, 16)
 
-(10, 16), (16, 16) -\&gt; (16, 25)
+(10, 16), (16, 16) -> (16, 25)
 
-(16, 25) -\&gt; (25, 22)
+(16, 25) -> (25, 22)
 
-(25, 22) -\&gt; (22, 22)
+(25, 22) -> (22, 22)
 
-(22, 22) -\&gt; (22, 34)
+(22, 22) -> (22, 34)
 
-(22, 34) -\&gt; (34, 7)
+(22, 34) -> (34, 7)
 
-(34, 7) -\&gt; (7, 28)
+(34, 7) -> (7, 28)
 
-(7, 28) -\&gt; (28, 16)
+(7, 28) -> (28, 16)
 
-(28, 16) -\&gt; (16, 43)
+(28, 16) -> (16, 43)
 
-(16, 43) -\&gt; (43, 28)
+(16, 43) -> (43, 28)
 
-(43, 28) -\&gt; (28, 52)
+(43, 28) -> (28, 52)
 
-(28, 52) -\&gt; (52, 79)
+(28, 52) -> (52, 79)
 
-(52, 79) -\&gt; (79, 16)
+(52, 79) -> (79, 16)
 
-(79, 16) -\&gt; (16, 16)
+(79, 16) -> (16, 16)
 
-NONE -\&gt; (4, 5)
+NONE -> (4, 5)
 
-NONE -\&gt; (5, 4)
+NONE -> (5, 4)
 
-The advantages of seeing it this way is that cycles in a sequence are cycles in a graph, and calculations don&#39;t have to be repeated (thus it&#39;s a form of memoization).
+The advantages of seeing it this way is that cycles in a sequence are cycles in a graph, and calculations don't have to be repeated (thus it's a form of memoization).
 
-It could be that there&#39;s a pattern I&#39;m missing here, but as far as I know it seems that, outside of a few basic rules (f(x,0)=0, f(x,1)=x), it is completely chaotic. I&#39;m curious if anyone could figure other patterns going on.
+It could be that there's a pattern I'm missing here, but as far as I know it seems that, outside of a few basic rules (f(x,0)=0, f(x,1)=x), it is completely chaotic. I'm curious if anyone could figure other patterns going on.
